@@ -17,6 +17,7 @@
 
 % Grafiken und Bilder
 \usepackage{graphicx} % Ermöglicht das Einfügen von Bildern und Grafiken.
+\usepackage{svg} % Ermöglicht das Einfügen von SVG-Grafiken.
 
 % Typografie
 \usepackage{microtype} % Verbessert die Lesbarkeit und Silbentrennung.
@@ -107,6 +108,7 @@
 
 % Absatzformatierung
 \setlength{\parindent}{0pt}           % Keine Einrückung am Absatzbeginn
+\setlength{\parskip}{6pt}             % 6pt Abstand nach jedem Absatz
 
 % Anpassung \listoffigures
 \renewcommand{\cftloftitlefont}{\Large\bfseries}
@@ -129,21 +131,24 @@
 
 % Überschriftenformatierung
 \titleformat{\chapter}
-  {\fontsize{16}{19}\bfseries\raggedright}
+  {\fontsize{11}{16.5}\bfseries\raggedright}
   {\thechapter}{1em}{}
-\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+\titlespacing*{\chapter}{0pt}{0pt}{6pt}
 
 \titleformat{\section}
-  {\fontsize{14}{17}\bfseries\raggedright}
+  {\fontsize{11}{16.5}\bfseries\raggedright}
   {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{0pt}{6pt}
 
 \titleformat{\subsection}
-  {\fontsize{12}{14}\bfseries\raggedright}
+  {\fontsize{11}{16.5}\bfseries\raggedright}
   {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{0pt}{6pt}
 
 \titleformat{\subsubsection}
-  {\fontsize{12}{14}\bfseries\raggedright}
+  {\fontsize{11}{16.5}\bfseries\raggedright}
   {\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{0pt}{6pt}
 
 % Blocksatz für Fließtext
 \justifying
@@ -200,7 +205,7 @@
 
 % Seitenstil für alle Seiten
 \pagestyle{fancy}
-\rhead{\thepage} % Seitenzahl oben rechts
+\rhead{\fontsize{9}{13.5}\selectfont\thepage} % Seitenzahl oben rechts, 9pt
 \renewcommand{\headrulewidth}{0pt} % Keine Linie unter der Kopfzeile
 
 % Anpassung der Verzeichnis-Überschriften
@@ -211,7 +216,7 @@
 % Setze PDF-Metadaten
 \hypersetup{
   pdftitle={Titel},
-  pdfauthor={Martin Kribs},
+  pdfauthor={Mustermensch},
   pdfsubject={Subjekt},
 }
 
@@ -221,19 +226,17 @@
 \begin{titlepage}
 \thispagestyle{empty}
 
-% Sperrvermerk
-\input{zusatz/sperrvermerk}
-\newpage
-
 \input{zusatz/vorderseite}
 \newpage
+\thispagestyle{empty}
+\quad 
 \newpage
 \input{zusatz/titelseite}
 \end{titlepage}
 
 \begin{onehalfspace}
     % Abkürzungsverzeichnis mit römischer Nummerierung
-    \pagenumbering{Roman}
+    \pagenumbering{roman}
     \phantomsection
     \addcontentsline{toc}{section}{Abkürzungsverzeichnis}
     \label{sec:Abkuerzungsverzeichnis}
@@ -263,7 +266,7 @@
     \pagenumbering{arabic}
 
     % Kapitel einbinden
-    \foreach \i in {10} {%
+    \foreach \i in {10,11} {%
       \edef\FileName{abschnitte/\i-kapitel}%
 
       \IfFileExists{\FileName}{%
