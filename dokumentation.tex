@@ -43,7 +43,7 @@
 \usepackage{enumitem} % Anpassung von Listen und Aufzählungen.
 
 % Literaturverwaltung
-\usepackage[style=apa, backend=biber, style=authoryear, sorting=nyt, dashed=false, giveninits=true]{biblatex} % Für Literaturverzeichnisse nach APA-Stil.
+\usepackage[style=chicago-notes, backend=biber, sorting=nyt, dashed=false, giveninits=true]{biblatex} % Für Literaturverzeichnisse nach Chicago-Stil mit Fußnoten.
 
 % Zitate
 \usepackage{csquotes} % Korrekte Darstellung von Zitaten, z. B. Anführungszeichen.
@@ -153,7 +153,7 @@
 % Blocksatz für Fließtext
 \justifying
 
-% Bibliographie-Einstellungen
+% Bibliographie-Einstellungen für Chicago-Stil
 \DeclareNameAlias{sortname}{family-given}
 \DeclareDelimFormat{nameyeardelim}{\addcomma\space}
 \DeclareDelimFormat{multinamedelim}{\space\addcomma\space}
@@ -164,9 +164,9 @@
 % Benutzerdefinierte Zitatbefehle
 \newcommand{\customcite}[2][]{%
   \ifblank{#1}{%
-    \parencite{#2}%
+    \footcite{#2}%
   }{%
-    \parencite[#1]{#2}%
+    \footcite[#1]{#2}%
   }%
 }
 
@@ -189,7 +189,7 @@
 
 % Inhaltsverzeichnis-Einrückung
 \setlength{\cftsubsecindent}{1.5em}
-\setlength{\cftsubsecindent}{3.0em}
+\setlength{\cftsubsubsecindent}{3.0em}
 
 % Glossar/Abkürzungsverzeichnis
 \makenoidxglossaries
@@ -212,6 +212,7 @@
 \renewcommand{\contentsname}{Inhaltsverzeichnis}
 \renewcommand{\listfigurename}{Abbildungsverzeichnis}
 \renewcommand{\listtablename}{Tabellenverzeichnis}
+\renewcommand{\bibname}{Quellen- und Literaturverzeichnis}
 
 % Setze PDF-Metadaten
 \hypersetup{
@@ -222,25 +223,38 @@
 
 \begin{document}
 
-% Titelseite ohne Seitenzahl
+% Schmutztitel (Vorderdeckel)
 \begin{titlepage}
 \thispagestyle{empty}
-
 \input{zusatz/vorderseite}
+\end{titlepage}
+
+% Leeres weißes Blatt
 \newpage
 \thispagestyle{empty}
 \quad 
 \newpage
+
+% Haupttitel
+\begin{titlepage}
+\thispagestyle{empty}
 \input{zusatz/titelseite}
 \end{titlepage}
 
+% Deaktiviere Einrückungen
+\setlength\parindent{0pt}
+
 \begin{onehalfspace}
-    % Abkürzungsverzeichnis mit römischer Nummerierung
+    % Römische Seitennummerierung für Verzeichnisse
     \pagenumbering{roman}
-    \phantomsection
-    \addcontentsline{toc}{section}{Abkürzungsverzeichnis}
-    \label{sec:Abkuerzungsverzeichnis}
-    \printnoidxglossary[title={Abkürzungsverzeichnis}, type=main, nonumberlist]
+    
+    % Zusammenfassung (deutsch) und Abstract (englisch)
+    \input{zusatz/zusammenfassung}
+    \newpage
+    
+    % Optionale Vorbemerkung
+    % Auskommentieren, wenn nicht benötigt
+    \input{zusatz/vorbemerkung}
     \newpage
     
     % Inhaltsverzeichnis
@@ -249,10 +263,11 @@
     \tableofcontents
     \newpage
     
-    % Tabellenverzeichnis
+    % Abkürzungsverzeichnis
     \phantomsection
-    \addcontentsline{toc}{section}{Tabellenverzeichnis}
-    \listoftables
+    \addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+    \label{sec:Abkuerzungsverzeichnis}
+    \printnoidxglossary[title={Abkürzungsverzeichnis}, type=main, nonumberlist]
     \newpage
     
     % Abbildungsverzeichnis
@@ -260,9 +275,18 @@
     \addcontentsline{toc}{section}{Abbildungsverzeichnis}
     \listoffigures
     \newpage
+    
+    % Tabellenverzeichnis
+    \phantomsection
+    \addcontentsline{toc}{section}{Tabellenverzeichnis}
+    \listoftables
+    \newpage
+    
+    % Promptverzeichnis (für KI-Prompts)
+    \input{zusatz/promptverzeichnis}
+    \newpage
 
-    % Hauptteil-
-    % Ab hier arabische Seitenzahlen
+    % Hauptteil mit arabischer Seitennummerierung
     \pagenumbering{arabic}
 
     % Kapitel einbinden
@@ -287,13 +311,18 @@
     % Anhänge
     \newpage
     \appendix
-    \chapter{Anhang}
+    \chapter*{Anhang}
+    \addcontentsline{toc}{chapter}{Anhang}
     \label{chap:Anhang}
     \input{anhaenge/anhang}
 
     % Eigenständigkeitserklärung
     \newpage
     \input{zusatz/eigenstaendigkeitserklaerung}
+    
+    % Lebenslauf (nur für Abschlussarbeiten)
+    \newpage
+    \input{zusatz/lebenslauf}
 
 \end{onehalfspace}
 \end{document}
