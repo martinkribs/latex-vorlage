@@ -48,6 +48,14 @@
 \usepackage[hang,flushmargin,bottom,multiple]{footmisc} % Keine Einrückung, mehr Abstand zwischen Fußnoten
 \setlength{\footnotesep}{12pt} % Abstand zwischen Fußnoten
 
+% Verhindere Seitenumbrüche in Fußnoten
+\interfootnotelinepenalty=10000 % Verhindert Umbrüche innerhalb von Fußnoten
+\raggedbottom % Erlaubt variable Seitenhöhen zur besseren Fußnoten-Platzierung
+
+% Zusätzliche Fußnoten-Kontrolle
+\setlength{\skip\footins}{10pt plus 4pt minus 2pt} % Flexibler Abstand zwischen Text und Fußnoten
+\renewcommand{\footnoterule}{\kern-3pt\hrule width 0.4\columnwidth\kern 2.6pt} % Angepasste Fußnotenlinie
+
 % Zeilenabstand
 \usepackage[onehalfspacing]{setspace} % Erzeugt 1,5-fachen Zeilenabstand.
 
